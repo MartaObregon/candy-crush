@@ -1,0 +1,21 @@
+.landing{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+@keyframes strech {
+    0%   {width: 247px; height: 93px; }
+    25%  {width: 259px; height: 83px;}
+    50%  {width: 259px; height: 83px;}
+    75%  {width: 259px; height: 83px;}
+    100% {width: 247px; height: 93px;}
+  }
+
+.landing img{
+    margin: 150px 0px 0px 50px;
+    animation: strech 1s ease-in-out 0s infinite alternate-reverse ;
+    animation-fill-mode: both;
+}
+

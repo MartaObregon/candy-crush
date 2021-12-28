@@ -1,4 +1,63 @@
+
 .app {
-  text-align: center;
+
+  display:flex;
+  flex-direction: column;
+  
+}
+.board-container{
+  width: 100%;
+  height: 100%;
+  background-color: grey;
+  background-image: url("./images/loading-cc.PNG");
+  background-position: center;
+  background-size: cover;
+}
+.board{
+  width:560px;
+  height: 560px;
+  display: flex;
+  flex-wrap: wrap;
+  
+  border:5px solid red;
+  display: none;
+
 }
 
+.board img {
+  width:70px;
+  height:70px;
+}
+
+.score-board{
+
+  font-size: 50px;
+}
+
+.game-section{
+
+  background-image: url('https://www.wallpapertip.com/wmimgs/48-487341_candy-crush-saga-wiki-candy-crush-saga-background.jpg');
+  background-position:center;
+  background-size:cover;
+  background-repeat: no-repeat;
+  height: 900px;
+
+  box-shadow: 0 0 10px rgb(0 0 0 );
+  display: flex;
+  justify-content: center;
+  align-items:flex-start;
+  padding-top: 40px;
+}
+
+
+.game-container{
+  width:900px;
+  height: 640px;
+  box-shadow: 0 0 10px rgb(0 0 0 );
+  background-image: url('https://images6.alphacoders.com/900/thumb-1920-900929.jpg');
+  background-position:center;
+  background-size:cover;
+  background-repeat: no-repeat;
+
+
+}
