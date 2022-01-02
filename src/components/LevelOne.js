@@ -3,20 +3,24 @@ import React from 'react'
 import {useState, useEffect} from 'react';
 import blank from '../images/blank.png'
 import ScoreBoard from './ScoreBoard';
+import './LevelOne.css'
+import IntroLevel from './IntroLevel'
 
 import  {candyColors}  from '../utilities/candies';
 
-const width = 8;
+const width = 5;
 
 function Game() {
 
-    const [currentColorArrangement, setCurrentColorArrengement] = useState([]);
+  const [currentColorArrangement, setCurrentColorArrengement] = useState([]);
   const [squareDragged, setSquareDragged] = useState([null]);
   const [squareReplaced, setSquareReplaced] = useState([null]);
   const [scoreDisplay, setScoreDisplay] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [playerReady, setPlayerReady] = useState(false)
 
   const checkColumnOfFour = () => {
-    for (let i = 0; i <= 39; i++) {
+    for (let i = 0; i <= 9; i++) {
       const columnOfFour = [i, i + width, i + width*2, i + width*3];
       const decidedColor = currentColorArrangement[i];
       const isBlank = currentColorArrangement[i] === blank
@@ -32,10 +36,10 @@ function Game() {
     }
    }
    const checkRowOfFour = () => {
-    for (let i = 0; i < 64; i++) {
+    for (let i = 0; i < width*width; i++) {
       const rowOfFour = [i, i + 1, i + 2, i+3];
       const decidedColor = currentColorArrangement[i];
-      const notValid = [5, 6, 7, 13, 14, 15, 21, 22, 23, 29, 30, 31, 37, 38, 39, 45, 46, 47, 53, 54, 55, 61, 62, 63];
+      const notValid = [2, 3, 4, 7, 8, 9];
       const isBlank = currentColorArrangement[i] === blank
  
       if(rowOfFour.every(square => currentColorArrangement[square] === decidedColor && !isBlank)){
@@ -52,7 +56,7 @@ function Game() {
    }
 
   const checkColumnOfThree = () => {
-   for (let i = 0; i <= 47; i++) {
+   for (let i = 0; i <= 14; i++) {
      const columnOfThree = [i, i + width, i + width*2];
      const decidedColor = currentColorArrangement[i];
      const isBlank = currentColorArrangement[i] === blank
@@ -70,10 +74,10 @@ function Game() {
 
 
   const checkRowOfThree = () => {
-    for (let i = 0; i < 64; i++) {
+    for (let i = 0; i < width*width; i++) {
       const rowOfThree = [i, i + 1, i + 2];
       const decidedColor = currentColorArrangement[i];
-      const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55, 62, 63]
+      const notValid = [3, 4, 8, 9, 13, 14, 18, 19, 23, 24]
       const isBlank = currentColorArrangement[i] === blank
  
       if(rowOfThree.every(square => currentColorArrangement[square] === decidedColor && !isBlank)){
@@ -172,12 +176,28 @@ function Game() {
 
  
   useEffect(() => {
-
+     let timer = 4
+      const loadingInterval = setInterval(function(){
+          if(timer===0){
+          setLoading(false)
+          console.log(timer, 'timer', loading);
+          clearInterval(loadingInterval)
+          
+          
+          }else{
+          timer--
+          }
+          
+      }, 1000)
+      
+     
       createBoard()
+
+
     }, [])
 
   useEffect(()=>{
-      const timer = setInterval(()=>{
+      const timerId = setInterval(()=>{
         checkColumnOfFour();
         checkRowOfFour();
         checkColumnOfThree();
@@ -185,23 +205,24 @@ function Game() {
         moveToSquareBelow();
         setCurrentColorArrengement([...currentColorArrangement])
       }, 100)
-      return ()=> clearInterval(timer)
+      return ()=> clearInterval(timerId)
       
     }, [checkColumnOfFour, checkColumnOfThree, checkRowOfThree, checkRowOfFour, moveToSquareBelow, currentColorArrangement])
 
-
-
-
+    
+      
+    
 
     return (
-
-      <div className='board-container'>
+      
+      <div className={`board-container ${loading?'loading':'loaded'}`}>
+      {
+        !loading?(
           <div className='board'>
           {
             currentColorArrangement.map((candyColor, index)=>(
               <img
                 key = {index}
-                //style = {{backgroundColor : candyColor}}
                 src = {candyColor}
                 alt = {index}
                 data-id = {index}
@@ -215,9 +236,14 @@ function Game() {
                 />
                 
             ))
-          }  
+          }
+          
           {/* <ScoreBoard score={scoreDisplay}/> */}
         </div>
+        ):(null)
+      }
+      <IntroLevel/>
+      <div className="opacity"></div>  
       </div>
     )
 }
